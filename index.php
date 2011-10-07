@@ -76,7 +76,7 @@ while ($datasok=mysql_fetch_assoc($result)){
 	//Search of billable or not.
 	//----------------------------------------
 	$TICKET=$datasok['bug_id'];
-	$result7 =  $aDao->GetBillable($TICKET);
+	$result7 =  $aDao->GetBillable($TICKET,$CUSTOM_FIELD_TIME_CONSUMED);
 	$data7 = mysql_fetch_array($result7);
 	$num7= mysql_num_rows($result7);
 	

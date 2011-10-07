@@ -109,8 +109,8 @@ class Dao {
 		return $result;
 	}
 
-	public function GetBillable($TICKET) {
-		$sql ="SELECT * FROM mantis_bug_history_table WHERE bug_id=$TICKET and field_name like '%[CIL] Imputation Projet%' order by date_modified DESC";
+	public function GetBillable($TICKET, $CUSTOM_FIELD_TIME_CONSUMED) {
+		$sql ="SELECT * FROM mantis_bug_history_table WHERE bug_id=$TICKET and field_name like '%$CUSTOM_FIELD_TIME_CONSUMED%' order by date_modified DESC";
 		//echo "SQL = $sql<br>"; //debug
 		//Get values
 		$result=mysql_query($sql);
