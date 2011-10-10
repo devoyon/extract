@@ -11,7 +11,7 @@ include_once './dao/DAO.php';
 //######################################
 // Head of the array 
 //######################################
-echo ' <table border="1" style="font-size:12px;"><tr><th>Ingénieur</th><th>Ticket</th><th>Projet</th><th>Catégorie</th><th>Sujet</th><th>Imputation (dixièmes)</th><th>Imputé projet</th><th>mois</th><th>jour</th><th>Projet imputé</th></tr>';
+echo ' <table border="1" style="font-size:12px;"><tr><th>Ingénieur</th><th>Ticket</th><th>Projet</th><th>Catégorie</th><th>Sujet</th><th>Imputation (dixièmes)</th><th>Imputé projet</th><th>mois</th><th>jour</th><th>Projet imputé</th><th>'.$TC_FINAL.'</th></tr>';
 
 //######################################
 // instance of Dao
@@ -39,6 +39,7 @@ while ($datasok=mysql_fetch_assoc($result)){
 	//----------------------------------------"
 	$result3 =  $aDao->GetAllTicketsInformation($datasok);
 	$data3=mysql_fetch_assoc($result3);
+	$PROJECT_ID=$data3['project_id'];	
 	
 	//----------------------------------------
 	// Select Project Name
@@ -87,14 +88,17 @@ while ($datasok=mysql_fetch_assoc($result)){
 		$BILLABLE="OUI";
 	}//if  ( $num9 > 0 ){
 
-
+	
 	//--------------------------------------------------------------
 	// Modify final imputation depending the case
 	//---------------------------------------------------------------
+	
 	if ( "$BILLABLE" == "OUI" | "$BILLABLE" == " --- " ){
 		$PROJECT_IMPUT_NAME=$PROJECT_NAME;
+		$FINAL_IMPUT="0";
 	}
 	else {
+		$FINAL_IMPUT="1";
 		// cut the line to get the project name
 		$VALEUR = explode('(', $BILLABLE,2);
 		// if no error
@@ -104,11 +108,10 @@ while ($datasok=mysql_fetch_assoc($result)){
 			$result4 =  $aDao->GetProjectName($VALEUR2[0]) ;
 			$row4 = mysql_fetch_array($result4);
 			$PROJECT_IMPUT_NAME=$row4['name'];
-			
+			$PROJECT_ID=$VALEUR2[0];			
 		}
 		else{
-			$PROJECT_IMPUT_NAME = "Error : $BILLABLE";
-			
+			$PROJECT_IMPUT_NAME = "Error : $BILLABLE";			
 		}
 
 
@@ -122,9 +125,45 @@ while ($datasok=mysql_fetch_assoc($result)){
 	$DATE_TICKET_light="$DAY";
 
 	//----------------------------------------
+	// Calculate the final imputation
+	//----------------------------------------
+		$i = 0; 
+		$max = count( $TC_FINAL_PROJET ); 
+		echo "Ticket ==> $TICKET<br>";
+		echo "TC_FINAL_VALUE = $TC_FINAL_VALUE<br>";
+		while( $i < $max ) 
+		{ 
+			echo ''.$TC_FINAL_PROJET[ $i ].' == '.$PROJECT_ID.'<br>';
+			if ( $TC_FINAL_PROJET[ $i ] == $PROJECT_ID ){
+			$TC_FINAL_VALUE="YES";
+			echo "EGAL ==>YES<br>";
+			break;
+			}
+			else {
+				echo "PAS EGAL !!<br>";
+				if ($FINAL_IMPUT="0" ){
+					$TC_FINAL_VALUE="YES";
+				}
+				else {
+					$TC_FINAL_VALUE="NO";
+				}
+					
+				
+			
+			}  			
+			$i++; 
+		} 
+		echo "TC_FINAL_VALUE = 	$TC_FINAL_VALUE<br>";	
+		echo "sortie de while<hr>";
+		
+	
+
+
+
+	//----------------------------------------
 	//chow the line
 	//----------------------------------------
-	echo '<tr><td>'.$USERNAME.'</td><td><a href="'.$MANTIS_URL.'/view.php?id='.$TICKET.'" target="blank">'.$TICKET.'</a></td><td>'.$PROJECT_NAME.'</td><td>'.$CATEGORY_NAME.'</td><td>'.$SUBJECT_TICKET.'</td><td>'.$UNITS.'</td><td>'.$BILLABLE.'</td><td>'.$DATE_TICKET.'</td><td>'.$DATE_TICKET_light.'</td><td>'.$PROJECT_IMPUT_NAME.'</td></tr>';
+	echo '<tr><td>'.$USERNAME.'</td><td><a href="'.$MANTIS_URL.'/view.php?id='.$TICKET.'" target="blank">'.$TICKET.'</a></td><td>'.$PROJECT_NAME.'</td><td>'.$CATEGORY_NAME.'</td><td>'.$SUBJECT_TICKET.'</td><td>'.$UNITS.'</td><td>'.$BILLABLE.'</td><td>'.$DATE_TICKET.'</td><td>'.$DATE_TICKET_light.'</td><td>'.$PROJECT_IMPUT_NAME.'</td><td>'.$TC_FINAL_VALUE.'</td></tr>';
 
 
 }
