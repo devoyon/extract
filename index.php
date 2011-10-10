@@ -129,18 +129,18 @@ while ($datasok=mysql_fetch_assoc($result)){
 	//----------------------------------------
 		$i = 0; 
 		$max = count( $TC_FINAL_PROJET ); 
-		echo "Ticket ==> $TICKET<br>";
-		echo "TC_FINAL_VALUE = $TC_FINAL_VALUE<br>";
+		//echo "Ticket ==> $TICKET<br>";
+		//echo "TC_FINAL_VALUE = $TC_FINAL_VALUE<br>";
 		while( $i < $max ) 
 		{ 
-			echo ''.$TC_FINAL_PROJET[ $i ].' == '.$PROJECT_ID.'<br>';
+			//echo ''.$TC_FINAL_PROJET[ $i ].' == '.$PROJECT_ID.'<br>';
 			if ( $TC_FINAL_PROJET[ $i ] == $PROJECT_ID ){
 			$TC_FINAL_VALUE="YES";
-			echo "EGAL ==>YES<br>";
+			//echo "EGAL ==>YES<br>";
 			break;
 			}
 			else {
-				echo "PAS EGAL !!<br>";
+				//echo "PAS EGAL !!<br>";
 				if ($FINAL_IMPUT="0" ){
 					$TC_FINAL_VALUE="YES";
 				}
@@ -153,8 +153,8 @@ while ($datasok=mysql_fetch_assoc($result)){
 			}  			
 			$i++; 
 		} 
-		echo "TC_FINAL_VALUE = 	$TC_FINAL_VALUE<br>";	
-		echo "sortie de while<hr>";
+		//echo "TC_FINAL_VALUE = 	$TC_FINAL_VALUE<br>";	
+		//echo "sortie de while<hr>";
 		
 	
 
