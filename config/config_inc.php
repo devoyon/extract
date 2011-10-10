@@ -20,6 +20,6 @@
 	// Projects ID on which time is attached to my projects.
 	$TC_FINAL_PROJET=array('19','94');
 
-	$VERSION="Mantis-pilot - Extract V2.1";
+	$VERSION="Mantis-pilot - Extract V2.2";
 	$URL="http://www.mantis-pilot.org";
 ?>
